@@ -16,9 +16,9 @@ func TestShouldCreatePresentationFromConfig(t *testing.T) {
 			},
 		},
 	}
-	
+
 	presentation := NewPresentation(config)
-	
+
 	if presentation == nil {
 		t.Error("Expected presentation to be created")
 	}

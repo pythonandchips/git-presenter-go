@@ -6,7 +6,7 @@ import (
 
 func TestShouldCreateGitPresenter(t *testing.T) {
 	presenter := NewGitPresenter("/tmp/test", true)
-	
+
 	if presenter == nil {
 		t.Error("Expected presenter to be created")
 	}
@@ -14,7 +14,7 @@ func TestShouldCreateGitPresenter(t *testing.T) {
 
 func TestShouldExecuteInitCommand(t *testing.T) {
 	presenter := NewGitPresenter("..", true)
-	
+
 	err := presenter.Execute("init")
 	if err != nil {
 		t.Skipf("Skipping test - not in git repository: %v", err)

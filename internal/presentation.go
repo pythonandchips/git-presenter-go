@@ -14,7 +14,7 @@ type Presentation struct {
 
 func NewPresentation(config map[string]interface{}) *Presentation {
 	branch, _ := config["branch"].(string)
-	
+
 	var slides []*Slide
 	if slidesData, ok := config["slides"].([]interface{}); ok {
 		for _, slideData := range slidesData {
@@ -25,15 +25,15 @@ func NewPresentation(config map[string]interface{}) *Presentation {
 			}
 		}
 	}
-	
+
 	presentation := &Presentation{
 		branch: branch,
 		slides: slides,
 	}
-	
+
 	// Find current slide based on current git HEAD
 	presentation.currentSlide = presentation.findCurrentSlide()
-	
+
 	return presentation
 }
 
@@ -46,14 +46,14 @@ func (p *Presentation) findCurrentSlide() *Slide {
 		}
 		return nil
 	}
-	
+
 	sha := strings.TrimSpace(string(output))
 	for _, slide := range p.slides {
 		if slide.Commit() == sha {
 			return slide
 		}
 	}
-	
+
 	if len(p.slides) > 0 {
 		return p.slides[0]
 	}
@@ -93,12 +93,12 @@ func (p *Presentation) next() string {
 	if len(p.slides) == 0 {
 		return "No slides available"
 	}
-	
+
 	currentIndex := p.getCurrentSlideIndex()
 	if currentIndex == -1 || currentIndex >= len(p.slides)-1 {
 		return p.currentSlide.Execute()
 	}
-	
+
 	p.currentSlide = p.slides[currentIndex+1]
 	return p.currentSlide.Execute()
 }
@@ -107,12 +107,12 @@ func (p *Presentation) previous() string {
 	if len(p.slides) == 0 {
 		return "No slides available"
 	}
-	
+
 	currentIndex := p.getCurrentSlideIndex()
 	if currentIndex <= 0 {
 		return p.currentSlide.Execute()
 	}
-	
+
 	p.currentSlide = p.slides[currentIndex-1]
 	return p.currentSlide.Execute()
 }
@@ -129,7 +129,7 @@ func (p *Presentation) list() string {
 	if len(p.slides) == 0 {
 		return "No slides available"
 	}
-	
+
 	var result strings.Builder
 	for _, slide := range p.slides {
 		if slide == p.currentSlide {

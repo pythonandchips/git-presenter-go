@@ -40,26 +40,26 @@ func (g *GitPresenter) startPresentation() error {
 	if err != nil {
 		return err
 	}
-	
+
 	configMap := map[string]interface{}{
 		"branch": config.Branch,
 		"slides": make([]interface{}, len(config.Slides)),
 	}
-	
+
 	for i, slide := range config.Slides {
 		configMap["slides"].([]interface{})[i] = map[string]interface{}{
 			"slide": slide.Slide,
 		}
 	}
-	
+
 	g.presentation = NewPresentation(configMap)
-	
+
 	if g.interactive {
 		g.enterRunLoop()
 	} else {
 		fmt.Println(g.presentation.Execute("start"))
 	}
-	
+
 	return nil
 }
 
@@ -74,21 +74,21 @@ func (g *GitPresenter) executeNavigationCommand(command string) error {
 		if err != nil {
 			return err
 		}
-		
+
 		configMap := map[string]interface{}{
 			"branch": config.Branch,
 			"slides": make([]interface{}, len(config.Slides)),
 		}
-		
+
 		for i, slide := range config.Slides {
 			configMap["slides"].([]interface{})[i] = map[string]interface{}{
 				"slide": slide.Slide,
 			}
 		}
-		
+
 		g.presentation = NewPresentation(configMap)
 	}
-	
+
 	result := g.presentation.Execute(command)
 	fmt.Println(result)
 	return nil
@@ -96,29 +96,29 @@ func (g *GitPresenter) executeNavigationCommand(command string) error {
 
 func (g *GitPresenter) enterRunLoop() {
 	scanner := bufio.NewScanner(os.Stdin)
-	
+
 	// Start with the first slide
 	result := g.presentation.Execute("start")
 	fmt.Println(result)
-	
+
 	for {
 		fmt.Print(g.presentation.StatusLine())
-		
+
 		if !scanner.Scan() {
 			break
 		}
-		
+
 		command := strings.TrimSpace(scanner.Text())
 		if command == "" {
 			continue
 		}
-		
+
 		result := g.presentation.Execute(command)
 		if result == "Exited presentation" {
 			fmt.Println(result)
 			break
 		}
-		
+
 		fmt.Println(result)
 	}
 }

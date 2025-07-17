@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"git-presenter/internal"
+	"os"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 
 	command := os.Args[1]
 	interactive := true
-	
+
 	if len(os.Args) >= 3 && os.Args[2] == "-c" {
 		interactive = false
 	}
@@ -27,7 +27,7 @@ func main() {
 	}
 
 	gitPresenter := internal.NewGitPresenter(currentDir, interactive)
-	
+
 	err = gitPresenter.Execute(command)
 	if err != nil {
 		fmt.Printf("Error executing command: %v\n", err)
