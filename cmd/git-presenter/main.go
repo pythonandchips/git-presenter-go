@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"git-presenter/internal/presenter"
+	"git-presenter/internal"
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	gitPresenter := presenter.NewGitPresenter(currentDir, interactive)
+	gitPresenter := internal.NewGitPresenter(currentDir, interactive)
 	
 	err = gitPresenter.Execute(command)
 	if err != nil {

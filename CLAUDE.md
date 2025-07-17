@@ -11,15 +11,12 @@ go build -o bin/git-presenter ./cmd/git-presenter
 
 ### Running Tests
 ```bash
-go test ./internal/controller ./internal/presentation ./internal/presenter ./internal/slide
+go test ./internal
 ```
 
 ### Testing Single Package
 ```bash
-go test ./internal/controller  # Controller tests
-go test ./internal/presentation  # Presentation tests
-go test ./internal/presenter  # Presenter tests
-go test ./internal/slide  # Slide tests
+go test ./internal  # All tests in internal package
 ```
 
 ### Installation
@@ -36,26 +33,26 @@ Git Presenter follows clean architecture principles with clear separation of con
 - Creates GitPresenter instance and delegates to it
 - Supports both interactive and command modes (`-c` flag)
 
-**Core Components**:
+**Core Components** (all in `internal/` package):
 
-1. **GitPresenter** (`internal/presenter/presenter.go`)
+1. **GitPresenter** (`internal/presenter.go`)
    - Main orchestrator that coordinates all components
    - Handles command routing and interactive mode
    - Manages the presentation lifecycle
 
-2. **Controller** (`internal/controller/controller.go`)
+2. **Controller** (`internal/controller.go`)
    - Manages presentation initialization and configuration
    - Interfaces with git repository using go-git library
    - Creates `.presentation` YAML file with slide metadata
    - Handles git operations for discovering commits
 
-3. **Presentation** (`internal/presentation/presentation.go`)
+3. **Presentation** (`internal/presentation.go`)
    - Core presentation logic and state management
    - Handles slide navigation (next, back, start, end, list)
    - Manages current slide tracking and status display
    - Provides interactive command execution
 
-4. **Slide** (`internal/slide/slide.go`)
+4. **Slide** (`internal/slide.go`)
    - Represents individual slides (git commits)
    - Handles git checkout operations to move between commits
    - Stores commit hash and message metadata
@@ -86,4 +83,4 @@ The codebase follows Test-Driven Development (TDD) with comprehensive test cover
 
 ## Testing Strategy
 
-Tests are organized by package and focus on unit testing individual components. When adding new features, ensure corresponding tests are added to maintain coverage.
+All tests are in the `internal/` package with a flattened structure. Tests focus on unit testing individual components. When adding new features, ensure corresponding tests are added to maintain coverage.
